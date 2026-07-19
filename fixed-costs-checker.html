@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fixed Costs Checker — Free Tool</title>
+<meta name="description" content="Find out in seconds if your fixed costs are eating too much of your income. Free tool, no signup.">
+<style>
+  :root{
+    --teal:#1B5E4F;
+    --teal-dark:#123D34;
+    --cream:#E8F0EA;
+    --white:#FFFFFF;
+    --warn-bg:#F7DEDA;
+    --warn-text:#8C3B2E;
+    --ok-bg:#DCEFE3;
+    --ok-text:#1B5E4F;
+    --ink:#22312C;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.5;
+    padding:32px 16px 64px;
+  }
+  .wrap{max-width:520px;margin:0 auto;}
+  .logo{
+    width:40px;height:40px;background:#2E7D5B;border-radius:8px;
+    display:flex;align-items:center;justify-content:center;color:#fff;
+    font-weight:700;font-size:14px;margin-bottom:24px;
+  }
+  h1{
+    font-size:28px;
+    line-height:1.25;
+    color:var(--teal-dark);
+    margin:0 0 8px;
+    font-weight:800;
+  }
+  p.sub{
+    margin:0 0 32px;
+    color:#4A5A54;
+    font-size:16px;
+  }
+  .card{
+    background:var(--white);
+    border-radius:16px;
+    padding:24px;
+    margin-bottom:16px;
+  }
+  .card h2{
+    font-size:14px;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    color:var(--teal);
+    margin:0 0 16px;
+  }
+  label{
+    display:block;
+    font-size:14px;
+    font-weight:600;
+    margin-bottom:6px;
+    color:var(--ink);
+  }
+  .field{margin-bottom:16px;}
+  .field:last-child{margin-bottom:0;}
+  .input-row{
+    display:flex;
+    align-items:center;
+    background:var(--cream);
+    border-radius:10px;
+    padding:0 12px;
+    border:2px solid transparent;
+    transition:border-color .15s ease;
+  }
+  .input-row:focus-within{border-color:var(--teal);}
+  .input-row span{color:#6B7B75;font-size:16px;}
+  input[type=number]{
+    flex:1;
+    border:none;
+    background:transparent;
+    padding:12px 8px;
+    font-size:16px;
+    color:var(--ink);
+    outline:none;
+    width:100%;
+    -moz-appearance:textfield;
+  }
+  input[type=number]::-webkit-outer-spin-button,
+  input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
+ 
+  button{
+    width:100%;
+    background:var(--teal);
+    color:#fff;
+    border:none;
+    padding:16px;
+    border-radius:10px;
+    font-size:16px;
+    font-weight:700;
+    cursor:pointer;
+    margin-top:8px;
+    transition:background .15s ease;
+  }
+  button:hover{background:var(--teal-dark);}
+  button:active{transform:translateY(1px);}
+ 
+  #results{display:none;}
+  #results.show{display:block;}
+ 
+  .result-line{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:10px 0;
+    border-bottom:1px solid var(--cream);
+    font-size:15px;
+  }
+  .result-line:last-child{border-bottom:none;}
+  .result-line strong{color:var(--teal-dark);}
+ 
+  .flag{
+    margin-top:16px;
+    padding:16px;
+    border-radius:12px;
+    font-size:15px;
+    font-weight:600;
+  }
+  .flag.warn{background:var(--warn-bg);color:var(--warn-text);}
+  .flag.ok{background:var(--ok-bg);color:var(--ok-text);}
+  .flag .pct{
+    display:block;
+    font-size:32px;
+    font-weight:800;
+    margin-bottom:4px;
+  }
+ 
+  .cta{
+    margin-top:24px;
+    padding:20px;
+    border-radius:16px;
+    background:var(--teal-dark);
+    color:#fff;
+  }
+  .cta p{margin:0 0 14px;font-size:14px;color:#CFE3D9;}
+  .cta a{
+    display:inline-block;
+    background:#fff;
+    color:var(--teal-dark);
+    text-decoration:none;
+    font-weight:700;
+    font-size:14px;
+    padding:10px 16px;
+    border-radius:8px;
+  }
+  .error{
+    color:var(--warn-text);
+    font-size:13px;
+    margin-top:8px;
+    display:none;
+  }
+  .error.show{display:block;}
+  footer{
+    text-align:center;
+    margin-top:32px;
+    font-size:13px;
+    color:#7A8A83;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+ 
+  <div class="logo">$</div>
+ 
+  <h1>Are your fixed costs already too high?</h1>
+  <p class="sub">Enter your income and fixed costs below. This checks one thing: whether your bills are eating more than half of what you earn.</p>
+ 
+  <div class="card">
+    <h2>Your income</h2>
+    <div class="field">
+      <label for="income">Monthly income</label>
+      <div class="input-row">
+        <span>$</span>
+        <input type="number" id="income" placeholder="0" min="0" step="1">
+      </div>
+    </div>
+  </div>
+ 
+  <div class="card">
+    <h2>Your fixed costs</h2>
+    <div class="field">
+      <label for="housing">Housing</label>
+      <div class="input-row"><span>$</span><input type="number" id="housing" placeholder="0" min="0" step="1"></div>
+    </div>
+    <div class="field">
+      <label for="utilities">Utilities</label>
+      <div class="input-row"><span>$</span><input type="number" id="utilities" placeholder="0" min="0" step="1"></div>
+    </div>
+    <div class="field">
+      <label for="groceries">Groceries</label>
+      <div class="input-row"><span>$</span><input type="number" id="groceries" placeholder="0" min="0" step="1"></div>
+    </div>
+    <div class="field">
+      <label for="transport">Transport</label>
+      <div class="input-row"><span>$</span><input type="number" id="transport" placeholder="0" min="0" step="1"></div>
+    </div>
+    <div class="field">
+      <label for="debt">Debt or loan repayment</label>
+      <div class="input-row"><span>$</span><input type="number" id="debt" placeholder="0" min="0" step="1"></div>
+    </div>
+  </div>
+ 
+  <button onclick="calculate()">Check my fixed costs</button>
+  <div class="error" id="errorMsg">Enter your income and at least one fixed cost first.</div>
+ 
+  <div id="results">
+    <div class="card" style="margin-top:16px;">
+      <h2>Total fixed costs</h2>
+      <div class="result-line">
+        <span>Added up</span>
+        <strong id="totalFixed">$0</strong>
+      </div>
+ 
+      <div class="flag" id="flagBox">
+        <span class="pct" id="pctValue">0%</span>
+        <span id="flagText"></span>
+      </div>
+    </div>
+ 
+    <div class="cta">
+      <p>This checks one number. The full Monthly Budget Planner tracks fixed costs, flexible spending, and savings together, and does this automatically every month.</p>
+      <a href="https://vivekchauhan45.gumroad.com/l/monthly-budget-planner-for-beginners" target="_blank" rel="noopener">Get the full planner</a>
+    </div>
+  </div>
+ 
+  <footer>A guided walkthrough, not a blank template.</footer>
+ 
+</div>
+ 
+<script>
+function calculate(){
+  var income = parseFloat(document.getElementById('income').value) || 0;
+  var housing = parseFloat(document.getElementById('housing').value) || 0;
+  var utilities = parseFloat(document.getElementById('utilities').value) || 0;
+  var groceries = parseFloat(document.getElementById('groceries').value) || 0;
+  var transport = parseFloat(document.getElementById('transport').value) || 0;
+  var debt = parseFloat(document.getElementById('debt').value) || 0;
+ 
+  var totalFixed = housing + utilities + groceries + transport + debt;
+  var errorMsg = document.getElementById('errorMsg');
+  var results = document.getElementById('results');
+ 
+  if(income <= 0 || totalFixed <= 0){
+    errorMsg.classList.add('show');
+    results.classList.remove('show');
+    return;
+  }
+  errorMsg.classList.remove('show');
+ 
+  var pct = (totalFixed / income) * 100;
+  var pctRounded = Math.round(pct);
+ 
+  document.getElementById('totalFixed').textContent =
+    '$' + totalFixed.toLocaleString(undefined, {maximumFractionDigits:0});
+  document.getElementById('pctValue').textContent = pctRounded + '%';
+ 
+  var flagBox = document.getElementById('flagBox');
+  var flagText = document.getElementById('flagText');
+ 
+  if(pct > 50){
+    flagBox.className = 'flag warn';
+    flagText.textContent = 'That\'s more than half your income. Worth addressing before anything else.';
+  } else {
+    flagBox.className = 'flag ok';
+    flagText.textContent = 'You\'re under the 50% mark. That\'s a healthy starting point.';
+  }
+ 
+  results.classList.add('show');
+  results.scrollIntoView({behavior:'smooth', block:'start'});
+}
+</script>
+</body>
+</html>
+ 
